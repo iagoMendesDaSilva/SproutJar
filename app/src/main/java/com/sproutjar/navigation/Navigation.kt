@@ -56,7 +56,7 @@ fun Navigation(
 
     NavHost(
         navController = navController,
-        startDestination = Screens.BoxesScreen.name
+        startDestination = Screens.SplashScreen.name
     ) {
 
         composable(Screens.SplashScreen.name) {

@@ -13,4 +13,5 @@ fun BoxesScreen(
     appSettings: AppSettings,
     saveAppSettings: (AppSettings) -> Unit,
     showGlobalDialog: (GlobalDialogState) -> Unit
-) {}
+) {
+}

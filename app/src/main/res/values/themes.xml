@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Theme.SproutJar" parent="android:Theme.Material.Light.NoActionBar" />
+    <style name="Theme.SproutJar" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <!-- Customize your colors -->
+        <item name="colorPrimary">@color/light_green</item>
+        <item name="colorPrimaryVariant">@color/medium_green</item>
+        <item name="colorSecondary">@color/dark_green</item>
+    </style>
+
 </resources>

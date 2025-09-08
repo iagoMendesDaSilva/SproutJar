@@ -26,120 +26,106 @@ internal object TypographyTokens {
     val DisplayLarge = TextStyle(
         fontFamily = sulSansFamily,
         fontWeight = FontWeight.Bold,
-        fontSize = 34.sp,
-        lineHeight = 64.0.sp,
-        letterSpacing = (-0.2).sp
+        fontSize = 57.sp,
+        lineHeight = 64.sp,
+        letterSpacing = (-0.25).sp
     )
-
     val DisplayMedium = TextStyle(
         fontFamily = sulSansFamily,
         fontWeight = FontWeight.Medium,
-        fontSize = 28.sp,
-        lineHeight = 52.0.sp,
-        letterSpacing = 0.0.sp
+        fontSize = 45.sp,
+        lineHeight = 52.sp,
+        letterSpacing = 0.sp
     )
-
     val DisplaySmall = TextStyle(
         fontFamily = sulSansFamily,
         fontWeight = FontWeight.Normal,
-        fontSize = 26.sp,
-        lineHeight = 44.0.sp,
-        letterSpacing = 0.0.sp
+        fontSize = 36.sp,
+        lineHeight = 44.sp,
+        letterSpacing = 0.sp
     )
-
     val HeadlineLarge = TextStyle(
         fontFamily = sulSansFamily,
-        fontWeight = FontWeight.Bold,
-        fontSize = 22.sp,
-        lineHeight = 40.0.sp,
-        letterSpacing = 0.0.sp
+        fontWeight = FontWeight.Normal,
+        fontSize = 32.sp,
+        lineHeight = 40.sp,
+        letterSpacing = 0.sp
     )
-
     val HeadlineMedium = TextStyle(
         fontFamily = sulSansFamily,
-        fontWeight = FontWeight.Medium,
-        fontSize = 21.sp,
-        lineHeight = 36.0.sp,
-        letterSpacing = 0.0.sp
+        fontWeight = FontWeight.Normal,
+        fontSize = 28.sp,
+        lineHeight = 36.sp,
+        letterSpacing = 0.sp
     )
-
     val HeadlineSmall = TextStyle(
         fontFamily = sulSansFamily,
-        fontWeight = FontWeight.Normal,
-        fontSize = 20.sp,
-        lineHeight = 32.0.sp,
-        letterSpacing = 0.0.sp
+        fontWeight = FontWeight.Medium,
+        fontSize = 24.sp,
+        lineHeight = 32.sp,
+        letterSpacing = 0.sp
     )
-
     val TitleLarge = TextStyle(
         fontFamily = sulSansFamily,
         fontWeight = FontWeight.Medium,
-        fontSize = 18.sp,
-        lineHeight = 28.0.sp,
-        letterSpacing = 0.0.sp
+        fontSize = 22.sp,
+        lineHeight = 28.sp,
+        letterSpacing = 0.sp
     )
-
     val TitleMedium = TextStyle(
         fontFamily = sulSansFamily,
         fontWeight = FontWeight.Medium,
         fontSize = 16.sp,
-        lineHeight = 24.0.sp,
-        letterSpacing = 0.2.sp
+        lineHeight = 24.sp,
+        letterSpacing = 0.15.sp
     )
-
     val TitleSmall = TextStyle(
         fontFamily = sulSansFamily,
         fontWeight = FontWeight.Medium,
         fontSize = 14.sp,
-        lineHeight = 20.0.sp,
+        lineHeight = 20.sp,
         letterSpacing = 0.1.sp
     )
-
     val BodyLarge = TextStyle(
         fontFamily = sulSansFamily,
         fontWeight = FontWeight.Normal,
         fontSize = 16.sp,
-        lineHeight = 24.0.sp,
+        lineHeight = 24.sp,
         letterSpacing = 0.5.sp
     )
-
     val BodyMedium = TextStyle(
         fontFamily = sulSansFamily,
         fontWeight = FontWeight.Normal,
         fontSize = 14.sp,
-        lineHeight = 20.0.sp,
-        letterSpacing = 0.2.sp
+        lineHeight = 20.sp,
+        letterSpacing = 0.25.sp
     )
-
     val BodySmall = TextStyle(
         fontFamily = sulSansFamily,
         fontWeight = FontWeight.Normal,
         fontSize = 12.sp,
-        lineHeight = 16.0.sp,
+        lineHeight = 16.sp,
         letterSpacing = 0.4.sp
     )
-
     val LabelLarge = TextStyle(
         fontFamily = sulSansFamily,
         fontWeight = FontWeight.Medium,
         fontSize = 14.sp,
-        lineHeight = 20.0.sp,
+        lineHeight = 20.sp,
         letterSpacing = 0.1.sp
     )
-
     val LabelMedium = TextStyle(
         fontFamily = sulSansFamily,
-        fontWeight = FontWeight.Normal,
+        fontWeight = FontWeight.Medium,
         fontSize = 12.sp,
-        lineHeight = 16.0.sp,
+        lineHeight = 16.sp,
         letterSpacing = 0.5.sp
     )
-
     val LabelSmall = TextStyle(
         fontFamily = sulSansFamily,
-        fontWeight = FontWeight.Normal,
+        fontWeight = FontWeight.Medium,
         fontSize = 11.sp,
-        lineHeight = 16.0.sp,
+        lineHeight = 16.sp,
         letterSpacing = 0.5.sp
     )
 }

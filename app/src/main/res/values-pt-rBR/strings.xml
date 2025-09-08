@@ -13,8 +13,13 @@
     <string name="simulations">Simulations</string>
     <string name="projections">Projections</string>
     <string name="settings">Settings</string>
+    <string name="internet_connection">Back Online!</string>
     <string name="no_internet_connection">No Internet Connection!</string>
     <string name="ok">Ok</string>
     <string name="cancel">Cancel</string>
     <string name="check_internet_connection">Please check your connection and try again.</string>
+    <string name="logo">Logo</string>
+    <string name="biometric_authentication">Biometric Authentication</string>
+    <string name="login_biometric_credential">Log in using your biometric credential</string>
+    <string name="login_password">Log in using your password</string>
 </resources>
