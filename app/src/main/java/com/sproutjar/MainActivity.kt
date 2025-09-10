@@ -90,7 +90,9 @@ fun App(extras: Bundle?) {
 
     fun onLogout() {
         viewModel.saveAppSettings(AppSettings())
-        navController.navigate(Screens.SplashScreen.name)
+        navController.navigate(Screens.SplashScreen.name) {
+            popUpTo(0)
+        }
     }
 
 
@@ -113,13 +115,18 @@ fun App(extras: Bundle?) {
                             )
                         } ?: false
                         NavigationBarItem(
+                            label = {
+                                Text(
+                                    style = MaterialTheme.typography.bodySmall,
+                                    text = stringResource(id = item.title)
+                                )
+                            },
                             icon = {
                                 Icon(
                                     imageVector = if (selected) item.iconSelected else item.iconUnSelected,
                                     contentDescription = stringResource(id = item.title),
                                 )
                             },
-                            alwaysShowLabel = false,
                             selected = selected,
                             onClick = {
                                 navController.navigate(item.route) {

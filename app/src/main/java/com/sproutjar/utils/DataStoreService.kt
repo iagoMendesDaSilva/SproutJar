@@ -9,6 +9,7 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import com.sproutjar.data.models.AppSettings
 import com.sproutjar.data.models.Currency
 import com.sproutjar.data.models.Languages
+import com.sproutjar.data.models.Languages.Companion.getDeviceDefaultLanguage
 import com.sproutjar.data.models.Theme
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
@@ -37,8 +38,8 @@ class DataStoreService @Inject constructor(
             .map { preference ->
                 AppSettings(
                     theme = enumValueOf(preference[KEY_THEME] ?: Theme.SPROUT_JAR.name),
-                    language = enumValueOf(preference[KEY_LANGUAGE] ?: Languages.ENGLISH.name),
-                    biometrics = preference[KEY_BIOMETRICS] ?: false,
+                    language = preference[KEY_LANGUAGE]?.let { enumValueOf<Languages>(it) }
+                        ?: getDeviceDefaultLanguage(),                    biometrics = preference[KEY_BIOMETRICS] ?: false,
                     currency = enumValueOf(preference[KEY_CURRENCY] ?: Currency.USD.name),
                     notifications = preference[KEY_NOTIFICATIONS] ?: false,
                 )

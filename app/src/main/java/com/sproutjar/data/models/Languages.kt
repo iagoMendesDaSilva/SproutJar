@@ -1,11 +1,13 @@
 package com.sproutjar.data.models
 
+import android.util.Log
 import com.sproutjar.R
+import java.util.Locale
 
 
 enum class Languages(val code: String) {
-    PORTUGUESE("pt-br"),
-    ENGLISH("en-us");
+    PORTUGUESE("pt"),
+    ENGLISH("en");
 
     companion object {
         private val map = values().associateBy(Languages::code)
@@ -14,10 +16,11 @@ enum class Languages(val code: String) {
             return map[code] ?: throw IllegalArgumentException("Invalid code value")
         }
 
-        fun supportedLanguages(defaultLocale: String): String {
-            return when (defaultLocale) {
-                "pt" -> "pt"
-                else -> "en"
+        fun getDeviceDefaultLanguage(): Languages {
+            val locale = Locale.getDefault().language
+            return when (locale) {
+                "pt" -> Languages.PORTUGUESE
+                else -> Languages.ENGLISH
             }
         }
 

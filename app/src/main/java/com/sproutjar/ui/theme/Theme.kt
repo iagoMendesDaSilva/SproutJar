@@ -4,12 +4,13 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
-import com.sproutjar.data.models.Theme
 import androidx.compose.ui.graphics.Color
+import com.sproutjar.data.models.Theme
 
 private val SproutJarColorScheme = darkColorScheme(
     primary = LightGreen,
     onPrimary = DarkGreen,
+    secondary = Color.White,
     background = DarkGreen,
     surface = MediumGreen,
     secondaryContainer = Color.Transparent,
@@ -22,16 +23,26 @@ private val SproutJarColorScheme = darkColorScheme(
 private val DarkColorScheme = darkColorScheme(
     primary = LightGreen,
     onPrimary = DarkGreen,
+    secondary = Color.White,
     background = DarkBackground,
-    surface = DarkSurface
+    surface = DarkSurface,
+    secondaryContainer = Color.Transparent,
+    onSecondaryContainer = Color.White,
+    surfaceContainer = DarkSurface,
+    onSurfaceVariant = Color.White.copy(.5f)
 
 )
 
 private val LightColorScheme = lightColorScheme(
     primary = LightGreen,
     onPrimary = DarkGreen,
+    secondary = Color.Black,
     background = LightBackground,
-    surface = LightSurface
+    surface = LightSurface,
+    secondaryContainer = Color.Transparent,
+    onSecondaryContainer = Color.Black,
+    surfaceContainer = LightSurface,
+    onSurfaceVariant = Color.Black.copy(.5f)
 
 )
 

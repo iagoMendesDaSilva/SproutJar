@@ -28,7 +28,7 @@ fun Logo(theme: Theme, modifier: Modifier = Modifier) {
 
     Image(
         contentScale = ContentScale.Fit,
-        modifier = modifier.fillMaxWidth(.4f),
+        modifier = modifier.fillMaxWidth(.15f),
         contentDescription = stringResource(id = R.string.logo),
         painter = painterResource(
             id = when (theme) {

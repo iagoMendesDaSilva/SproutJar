@@ -4,7 +4,7 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 
 data class AppIcon(
+    val theme: Theme,
     val component: String,
-    @StringRes val name: Int,
     @DrawableRes val foregroundResource: Int,
 )

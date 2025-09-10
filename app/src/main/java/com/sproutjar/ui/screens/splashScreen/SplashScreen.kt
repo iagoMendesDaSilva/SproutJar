@@ -80,12 +80,13 @@ fun SplashScreen(
     }
 
     LaunchedEffect(selicTax, animationStart.value) {
-        Log.d("TAG", selicTax.toString())
         if (animationStart.value == AnimationStates.FINISHED && selicTax is Resource.Success) {
-            configApp()
+            configApp(appSettings.language)
 
             if (!appSettings.biometrics) {
-                navController.navigate(Screens.BoxesScreen.name)
+                navController.navigate(Screens.BoxesScreen.name){
+                    popUpTo(0)
+                }
             }
         }
     }
@@ -94,7 +95,9 @@ fun SplashScreen(
         BiometricAuthentication(onSuccess = {
             scope.launch {
                 animationStart.value = AnimationStates.UNDEFINED
-                navController.navigate(Screens.BoxesScreen.name)
+                navController.navigate(Screens.BoxesScreen.name){
+                    popUpTo(0)
+                }
             }
         }, onCancel = {
 
@@ -179,11 +182,10 @@ private suspend fun startAnimation(animationStart: MutableState<AnimationStates>
     animationStart.value = AnimationStates.FINISHED
 }
 
-private fun configApp() {
-    val defaultLanguage = Locale.getDefault().language
+private fun configApp(language: Languages) {
     AppCompatDelegate.setApplicationLocales(
         LocaleListCompat.forLanguageTags(
-            Languages.supportedLanguages(defaultLanguage)
+            language.code
         )
     )
 }
