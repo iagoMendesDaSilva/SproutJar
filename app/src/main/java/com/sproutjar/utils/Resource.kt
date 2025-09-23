@@ -14,6 +14,4 @@ sealed class Resource<T>(
     class Error<T>(dialogInfo: DialogInfo = DialogInfo()) : Resource<T>(dialogInfo = dialogInfo)
     class Loading<T>(state: LoadingStates = LoadingStates.LOADING) :
         Resource<T>(loadingState = state)
-
-    class Undefined<T> : Resource<T>()
 }

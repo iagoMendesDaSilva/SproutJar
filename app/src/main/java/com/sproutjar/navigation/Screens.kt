@@ -3,8 +3,8 @@ package com.sproutjar.navigation
 
 enum class Screens {
     SplashScreen,
-    BoxesScreen,
-    BoxScreen,
+    PotsScreen,
+    PotScreen,
     SimulationsScreen,
     ProjectionsScreen,
     SettingsScreen;
@@ -12,8 +12,8 @@ enum class Screens {
     companion object {
         fun fromRoute(route: String?): Screens = when (route?.substringBefore("/")) {
             SplashScreen.name -> SplashScreen
-            BoxesScreen.name -> BoxesScreen
-            BoxScreen.name -> BoxScreen
+            PotsScreen.name -> PotsScreen
+            PotScreen.name -> PotScreen
             SimulationsScreen.name -> SimulationsScreen
             ProjectionsScreen.name -> ProjectionsScreen
             SettingsScreen.name -> SettingsScreen

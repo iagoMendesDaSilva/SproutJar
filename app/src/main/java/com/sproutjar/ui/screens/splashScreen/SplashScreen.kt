@@ -2,7 +2,6 @@ package com.sproutjar.ui.screens.splashScreen
 
 import android.annotation.SuppressLint
 import android.os.Build
-import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.biometric.BiometricManager
@@ -28,6 +27,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -36,6 +36,7 @@ import androidx.core.os.LocaleListCompat
 import androidx.fragment.app.FragmentActivity
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import com.sproutjar.MainActivityViewModel
 import com.sproutjar.R
 import com.sproutjar.data.models.AppSettings
 import com.sproutjar.data.models.GlobalDialogState
@@ -50,7 +51,6 @@ import com.sproutjar.utils.DevicePreviews
 import com.sproutjar.utils.Resource
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import java.util.Locale
 
 @Composable
 fun SplashScreen(
@@ -61,8 +61,8 @@ fun SplashScreen(
     showGlobalDialog: (GlobalDialogState) -> Unit
 ) {
 
-    val viewModel = hiltViewModel<SplashViewModel>()
-    val selicTax by viewModel.selicToday.collectAsState()
+    val viewModel = hiltViewModel<MainActivityViewModel>()
+    val cdiToday by viewModel.cdiToday.collectAsState()
 
 
     val scope = rememberCoroutineScope()
@@ -76,15 +76,15 @@ fun SplashScreen(
 
     LaunchedEffect(key1 = Unit) {
         startAnimation(animationStart)
-        viewModel.fetchSelicToday()
+        viewModel.fetchCdiToday()
     }
 
-    LaunchedEffect(selicTax, animationStart.value) {
-        if (animationStart.value == AnimationStates.FINISHED && selicTax is Resource.Success) {
+    LaunchedEffect(cdiToday, animationStart.value) {
+        if (animationStart.value == AnimationStates.FINISHED && cdiToday is Resource.Success) {
             configApp(appSettings.language)
 
             if (!appSettings.biometrics) {
-                navController.navigate(Screens.BoxesScreen.name){
+                navController.navigate(Screens.PotsScreen.name) {
                     popUpTo(0)
                 }
             }
@@ -95,7 +95,7 @@ fun SplashScreen(
         BiometricAuthentication(onSuccess = {
             scope.launch {
                 animationStart.value = AnimationStates.UNDEFINED
-                navController.navigate(Screens.BoxesScreen.name){
+                navController.navigate(Screens.PotsScreen.name) {
                     popUpTo(0)
                 }
             }
@@ -121,9 +121,13 @@ fun SplashScreenUI(theme: Theme, alpha: Float) {
         Logo(theme = theme)
         Spacer(Modifier.height(10.dp))
         Text(
+            color = when (theme) {
+                Theme.DARK -> Color.White
+                Theme.LIGHT -> Color.Black
+                Theme.SPROUT_JAR -> MaterialTheme.colorScheme.primary
+            },
             style = MaterialTheme.typography.displayMedium,
             text = stringResource(R.string.app_name),
-            color = MaterialTheme.colorScheme.primary
         )
     }
 }

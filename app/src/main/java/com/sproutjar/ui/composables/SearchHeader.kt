@@ -19,7 +19,6 @@ import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
@@ -36,10 +35,10 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.sproutjar.R
 import com.sproutjar.ui.theme.SproutJarTheme
-import com.sproutjar.utils.ThemePreviews
 
 
 @Composable
@@ -151,12 +150,10 @@ internal fun SearchHeader(
     }
 }
 
-@ThemePreviews
+@Preview
 @Composable
 fun SearchHeaderPreview() {
     SproutJarTheme {
-        Surface {
             SearchHeader(R.string.settings) {}
         }
-    }
 }

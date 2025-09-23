@@ -1,5 +1,6 @@
 package com.sproutjar.ui.screens.settingsScreen
 
+import android.annotation.SuppressLint
 import android.content.ComponentName
 import android.content.Context
 import android.content.pm.PackageManager
@@ -49,11 +50,13 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.os.LocaleListCompat
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.sproutjar.R
 import com.sproutjar.data.models.AppIcon
 import com.sproutjar.data.models.AppSettings
@@ -70,11 +73,13 @@ import com.sproutjar.data.models.Theme
 import com.sproutjar.data.models.color
 import com.sproutjar.data.models.icon
 import com.sproutjar.navigation.Screens
-import com.sproutjar.ui.composables.EmptyListLabel
+import com.sproutjar.ui.composables.LogoLabel
 import com.sproutjar.ui.composables.SearchHeader
 import com.sproutjar.ui.theme.Green
+import com.sproutjar.ui.theme.SproutJarTheme
 import com.sproutjar.utils.AppIcons
 import com.sproutjar.utils.ConnectionState
+import com.sproutjar.utils.DevicePreviews
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -104,7 +109,8 @@ fun SettingsScreenUI(
     var searchText by remember { mutableStateOf("") }
     var showBottomSheet = remember { mutableStateOf<SettingId?>(null) }
 
-    val isBiometricAvailable = remember {
+    val isBiometricAvailable = if (LocalInspectionMode.current) false
+    else remember {
         BiometricManager.from(context).canAuthenticate(
             BiometricManager.Authenticators.BIOMETRIC_STRONG or
                     BiometricManager.Authenticators.DEVICE_CREDENTIAL
@@ -146,21 +152,28 @@ fun SettingsScreenUI(
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             SearchHeader(R.string.settings) { searchText = it }
-            if (filteredSections.isEmpty()) EmptyListLabel() else {
-                LazyColumn {
-                    filteredSections.forEach { section ->
-                        stickyHeader { Text(stringResource(section.title)) }
-                        items(section.items) { item ->
-                            SettingCard(
-                                settingItem = item,
-                                switchValue = when (item.id) {
-                                    SettingId.NOTIFICATIONS -> appSettings.notifications
-                                    SettingId.BIOMETRICS -> appSettings.biometrics
-                                    else -> null
-                                },
-                                enabled = item.id != SettingId.BIOMETRICS || isBiometricAvailable,
-                                onPress = settingActions[item.id] ?: {}
-                            )
+            Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center){
+                if (filteredSections.isEmpty())
+                    LogoLabel(
+                        appSettings.theme,
+                        MessageDialog(R.string.not_found_settings, R.string.settings_unavailable)
+                    )
+                else {
+                    LazyColumn(Modifier.fillMaxSize()) {
+                        filteredSections.forEach { section ->
+                            stickyHeader { Text(stringResource(section.title)) }
+                            items(section.items) { item ->
+                                SettingCard(
+                                    settingItem = item,
+                                    switchValue = when (item.id) {
+                                        SettingId.NOTIFICATIONS -> appSettings.notifications
+                                        SettingId.BIOMETRICS -> appSettings.biometrics
+                                        else -> null
+                                    },
+                                    enabled = item.id != SettingId.BIOMETRICS || isBiometricAvailable,
+                                    onPress = settingActions[item.id] ?: {}
+                                )
+                            }
                         }
                     }
                 }
@@ -425,5 +438,16 @@ private fun List<SettingsSection>.filterBySearch(searchText: String): List<Setti
                         ignoreCase = true
                     )
                 }
+    }
+}
+
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+@DevicePreviews
+@Composable
+fun SettingsPreview() {
+    SproutJarTheme {
+        Scaffold {
+            SettingsScreenUI(AppSettings(), saveAppSettings = {}, rememberNavController()) {}
+        }
     }
 }

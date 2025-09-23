@@ -9,7 +9,7 @@
     <string name="dark">Dark</string>
     <string name="light">Light</string>
     <string name="greenish">Greenish</string>
-    <string name="boxes">Boxes</string>
+    <string name="pots">Pots</string>
     <string name="simulations">Simulations</string>
     <string name="projections">Projections</string>
     <string name="settings">Settings</string>
@@ -48,4 +48,12 @@
     <string name="usd_symbol">$</string>
     <string name="brl_symbol">R$</string>
     <string name="eur_symbol">€</string>
+    <string name="add">add</string>
+    <string name="try_again">Something went wrong. Please try again later.</string>
+    <string name="not_found_pots">No found pot</string>
+    <string name="cb_failed">Failed to connect to Central Bank</string>
+    <string name="sorry">Sorry</string>
+    <string name="not_found_settings">Not found settings</string>
+    <string name="add_first_pot">Tap + button to add your first pot.</string>
+    <string name="settings_unavailable">Settings will appear here when available</string>
 </resources>

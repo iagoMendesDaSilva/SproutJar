@@ -7,9 +7,13 @@ import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.preferencesDataStoreFile
+import androidx.room.Room
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import com.sproutjar.data.ApiService
+import com.sproutjar.data.api.ApiService
+import com.sproutjar.data.database.AppDatabase
+import com.sproutjar.data.database.PotDao
+import com.sproutjar.data.database.TransactionDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -47,6 +51,26 @@ class AppModule {
             produceFile = { context.preferencesDataStoreFile("sproutjar_datastore") }
         )
     }
+
+    @Singleton
+    @Provides
+    fun provideDatabase(@ApplicationContext context: Context): AppDatabase =
+        Room.databaseBuilder(
+            context,
+            AppDatabase::class.java,
+            "sproutjar_db"
+        )  .fallbackToDestructiveMigration() //TODO
+            .build()
+
+    @Singleton
+    @Provides
+    fun providePotDao(appDatabase: AppDatabase): PotDao =
+        appDatabase.potDao()
+
+    @Singleton
+    @Provides
+    fun provideTransactionDao(appDatabase: AppDatabase): TransactionDao =
+        appDatabase.transactionDao()
 }
 
 

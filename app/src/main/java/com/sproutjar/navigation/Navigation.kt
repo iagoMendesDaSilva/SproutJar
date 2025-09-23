@@ -15,8 +15,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.sproutjar.data.models.AppSettings
 import com.sproutjar.data.models.GlobalDialogState
-import com.sproutjar.ui.screens.boxScreen.BoxScreen
-import com.sproutjar.ui.screens.boxesScreen.BoxesScreen
+import com.sproutjar.ui.screens.potScreen.PotScreen
+import com.sproutjar.ui.screens.potsScreen.PotsScreen
 import com.sproutjar.ui.screens.projectionsScreen.ProjectionsScreen
 import com.sproutjar.ui.screens.settingsScreen.SettingsScreen
 import com.sproutjar.ui.screens.simulationsScreen.SimulationsScreen
@@ -89,13 +89,13 @@ fun Navigation(
             )
         }
 
-        composable(Screens.BoxesScreen.name) {
+        composable(Screens.PotsScreen.name) {
             ConnectionReloadHandler(
                 connection,
                 navController,
-                Screens.BoxesScreen.name
+                Screens.PotsScreen.name
             )
-            BoxesScreen(
+            PotsScreen(
                 connection,
                 navController,
                 appSettings,
@@ -105,7 +105,7 @@ fun Navigation(
         }
 
         composable(
-            Screens.BoxScreen.name + "?id={id}",
+            Screens.PotScreen.name + "?id={id}",
             arguments = listOf(navArgument("id") {
                 type = NavType.IntType
                 defaultValue = 0
@@ -114,9 +114,9 @@ fun Navigation(
             ConnectionReloadHandler(
                 connection,
                 navController,
-                Screens.BoxScreen.name
+                Screens.PotScreen.name
             )
-            BoxScreen(
+            PotScreen(
                 connection,
                 navController,
                 appSettings,

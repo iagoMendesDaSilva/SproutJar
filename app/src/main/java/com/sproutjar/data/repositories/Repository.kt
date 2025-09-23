@@ -1,7 +1,7 @@
 package com.sproutjar.data.repositories
 
 import com.sproutjar.R
-import com.sproutjar.data.ApiService
+import com.sproutjar.data.api.ApiService
 import com.sproutjar.data.models.DialogInfo
 import com.sproutjar.data.models.MessageDialog
 import com.sproutjar.data.models.SelicTax
@@ -10,7 +10,6 @@ import com.sproutjar.utils.DateService
 import com.sproutjar.utils.ErrorService
 import com.sproutjar.utils.Resource
 import retrofit2.HttpException
-import java.time.LocalDate
 import java.util.Date
 import javax.inject.Inject
 
@@ -19,13 +18,14 @@ class Repository @Inject constructor(
     private val apiService: ApiService,
 ) : ErrorService {
 
-    suspend fun getSelicTaxHistoric(initialDate: String): Resource<List<SelicTax>> {
-        val today = DateService.formatDate(Date(), DateFormatPattern.SELIC_START_DATE_HISTORIC)
-        return request { apiService.getSelicTaxHistoric(initialDate, today) }
+    suspend fun getCdiHistoric(initialDate: Date): Resource<List<SelicTax>> {
+        val formattedStart = DateService.formatDate(initialDate, DateFormatPattern.SELIC_DATE_HISTORIC)
+        val formattedEnd = DateService.formatDate(Date(), DateFormatPattern.SELIC_DATE_HISTORIC)
+        return request { apiService.getCdiHistoric(formattedStart, formattedEnd) }
     }
 
-    suspend fun getSelicTaxToday(): Resource<SelicTax> {
-        return request { apiService.getSelicTaxToday().first() }
+    suspend fun getCdiToday(): Resource<SelicTax> {
+        return request { apiService.getCdiToday().first() }
     }
 
     private suspend fun <T> request(

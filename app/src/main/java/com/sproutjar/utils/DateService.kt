@@ -6,7 +6,7 @@ import java.util.Locale
 
 
 enum class DateFormatPattern(val pattern: String) {
-    SELIC_START_DATE_HISTORIC("dd/MM/yyyy"),
+    SELIC_DATE_HISTORIC("dd/MM/yyyy"),
 }
 
 

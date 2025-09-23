@@ -20,12 +20,12 @@ sealed class NavigationBarItem(
     val route: String
 ) {
 
-    object Boxes :
+    object Pots :
         NavigationBarItem(
-            R.string.boxes,
+            R.string.pots,
             Icons.Outlined.ViewComfy,
             Icons.Default.ViewComfy,
-            Screens.BoxesScreen.name
+            Screens.PotsScreen.name
         )
 
     object Simulations :
@@ -54,7 +54,7 @@ sealed class NavigationBarItem(
 
     companion object {
         val items: List<NavigationBarItem> = listOf(
-            Boxes,
+            Pots,
             Simulations,
             Projections,
             Settings

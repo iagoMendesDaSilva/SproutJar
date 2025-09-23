@@ -24,15 +24,19 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.sproutjar.R
 import com.sproutjar.ui.theme.Green
 import com.sproutjar.ui.theme.Red
+import com.sproutjar.ui.theme.SproutJarTheme
 import com.sproutjar.utils.ConnectionState
-import com.sproutjar.utils.currentConnectivityState
-import com.sproutjar.utils.observeConnectivityAsFlow
+import com.sproutjar.utils.NetworkService.currentConnectivityState
+import com.sproutjar.utils.NetworkService.observeConnectivityAsFlow
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
 
@@ -40,7 +44,7 @@ import kotlinx.coroutines.delay
 @ExperimentalCoroutinesApi
 @Composable
 fun ConnectivityStatus(connection: ConnectionState) {
-
+    val isInPreview = LocalInspectionMode.current
     val isConnected = connection === ConnectionState.Available
     val heightAnim = remember { Animatable(0f) }
     var previousConnection by remember { mutableStateOf<ConnectionState?>(null) }
@@ -65,19 +69,21 @@ fun ConnectivityStatus(connection: ConnectionState) {
     Row(
         Modifier
             .fillMaxWidth()
-            .height(heightAnim.value.dp)
+            .height(if (isInPreview) heightSize.dp else heightAnim.value.dp)
             .background(if (isConnected) Green else Red)
             .padding(12.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center
     ) {
         Icon(
+            tint = Color.White,
             imageVector = if (isConnected) Icons.Default.CloudDone else Icons.Default.CloudOff,
             contentDescription = null
         )
         Text(
             modifier = Modifier.padding(start = 5.dp),
             style = MaterialTheme.typography.labelSmall,
+            color = Color.White,
             text = stringResource(id = if (isConnected) R.string.internet_connection else R.string.no_internet_connection)
         )
     }
@@ -90,5 +96,21 @@ internal fun connectivityState(): State<ConnectionState> {
 
     return produceState(initialValue = context.currentConnectivityState) {
         context.observeConnectivityAsFlow().collect { value = it }
+    }
+}
+
+@Preview(name = "Offline")
+@Composable
+fun ConnectivityStatusPreviewOffline() {
+    SproutJarTheme {
+        ConnectivityStatus(ConnectionState.Unavailable)
+    }
+}
+
+@Preview(name = "Online")
+@Composable
+fun ConnectivityStatusPreviewOnline() {
+    SproutJarTheme {
+        ConnectivityStatus(ConnectionState.Available)
     }
 }
