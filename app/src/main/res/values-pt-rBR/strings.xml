@@ -56,4 +56,17 @@
     <string name="not_found_settings">Not found settings</string>
     <string name="add_first_pot">Tap + button to add your first pot.</string>
     <string name="settings_unavailable">Settings will appear here when available</string>
+    <string name="emergency">Emergency</string>
+    <string name="travel">Travel</string>
+    <string name="house">House</string>
+    <string name="automobile">Automobile</string>
+    <string name="education">Education</string>
+    <string name="retirement">Retirement</string>
+    <string name="wedding">Wedding</string>
+    <string name="pregnancy">Pregnancy</string>
+    <string name="pot_title_placeholder">Pot Name</string>
+    <string name="cdi_placeholder">CDI Rate: </string>
+    <string name="category">Category</string>
+    <string name="cdi_placeholder_label">100%</string>
+    <string name="done">Done</string>
 </resources>

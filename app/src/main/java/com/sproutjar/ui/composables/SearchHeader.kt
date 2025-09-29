@@ -71,7 +71,7 @@ internal fun SearchHeader(
         ) {
             Text(
                 text = stringResource(id = title),
-                style = MaterialTheme.typography.headlineLarge
+                style = MaterialTheme.typography.displaySmall
             )
             Box(
                 modifier = Modifier.size(48.dp, 48.dp),

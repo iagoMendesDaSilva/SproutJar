@@ -1,16 +1,16 @@
 package com.sproutjar.data.database
 
 import androidx.room.TypeConverter
-import com.sproutjar.data.models.PotIcon
+import com.sproutjar.data.models.PotCategory
 import com.sproutjar.data.models.TransactionType
 import java.util.Date
 
 class Converters {
     @TypeConverter
-    fun fromPotIcon(icon: PotIcon): String = icon.name
+    fun fromPotIcon(icon: PotCategory): String = icon.name
 
     @TypeConverter
-    fun toPotIcon(value: String): PotIcon = PotIcon.valueOf(value)
+    fun toPotIcon(value: String): PotCategory = PotCategory.valueOf(value)
 
     @TypeConverter
     fun fromTransactionType(type: TransactionType): String = type.name

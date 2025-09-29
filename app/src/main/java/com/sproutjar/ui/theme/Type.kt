@@ -40,22 +40,22 @@ internal object TypographyTokens {
     val DisplaySmall = TextStyle(
         fontFamily = sulSansFamily,
         fontWeight = FontWeight.Normal,
-        fontSize = 36.sp,
-        lineHeight = 44.sp,
+        fontSize = 32.sp,
+        lineHeight = 40.sp,
         letterSpacing = 0.sp
     )
     val HeadlineLarge = TextStyle(
         fontFamily = sulSansFamily,
-        fontWeight = FontWeight.Normal,
+        fontWeight = FontWeight.Medium,
         fontSize = 32.sp,
         lineHeight = 40.sp,
         letterSpacing = 0.sp
     )
     val HeadlineMedium = TextStyle(
         fontFamily = sulSansFamily,
-        fontWeight = FontWeight.Medium,
-        fontSize = 28.sp,
-        lineHeight = 36.sp,
+        fontWeight = FontWeight.Bold,
+        fontSize = 18.sp,
+        lineHeight = 24.sp,
         letterSpacing = 0.sp
     )
     val HeadlineSmall = TextStyle(

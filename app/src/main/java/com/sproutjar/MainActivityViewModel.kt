@@ -11,6 +11,7 @@ import com.sproutjar.data.models.SelicTax
 import com.sproutjar.data.models.Transaction
 import com.sproutjar.data.repositories.Repository
 import com.sproutjar.utils.AppPreference
+import com.sproutjar.utils.ErrorService
 import com.sproutjar.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -59,7 +60,7 @@ class MainActivityViewModel @Inject constructor(
         _pots.value = potUIList
     }
 
-    suspend fun addPot(pot: Pot) {
+    suspend fun insertPot(pot: Pot) {
         potDao.insertPot(pot)
         fetchPots()
     }
@@ -101,7 +102,12 @@ class MainActivityViewModel @Inject constructor(
         val result = repository.getCdiHistoric(oldestTransactionDate)
         _cdiHistory.value = when (result) {
             is Resource.Success -> Resource.Success(result.data!!)
-            is Resource.Error -> Resource.Error(result.dialogInfo)
+            is Resource.Error -> {
+                if (result.dialogInfo.error == ErrorService.HTTP_404_NOT_FOUND)
+                    Resource.Success(emptyList())
+                else
+                    Resource.Error(result.dialogInfo)
+            }
             else -> Resource.Error()
         }
     }
