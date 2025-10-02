@@ -25,14 +25,14 @@ val sulSansFamily = FontFamily(
 internal object TypographyTokens {
     val DisplayLarge = TextStyle(
         fontFamily = sulSansFamily,
-        fontWeight = FontWeight.Bold,
+        fontWeight = FontWeight.Normal,
         fontSize = 57.sp,
         lineHeight = 64.sp,
         letterSpacing = (-0.25).sp
     )
     val DisplayMedium = TextStyle(
         fontFamily = sulSansFamily,
-        fontWeight = FontWeight.Medium,
+        fontWeight = FontWeight.Normal,
         fontSize = 45.sp,
         lineHeight = 52.sp,
         letterSpacing = 0.sp
@@ -40,34 +40,34 @@ internal object TypographyTokens {
     val DisplaySmall = TextStyle(
         fontFamily = sulSansFamily,
         fontWeight = FontWeight.Normal,
-        fontSize = 32.sp,
-        lineHeight = 40.sp,
+        fontSize = 36.sp,
+        lineHeight = 44.sp,
         letterSpacing = 0.sp
     )
     val HeadlineLarge = TextStyle(
         fontFamily = sulSansFamily,
-        fontWeight = FontWeight.Medium,
+        fontWeight = FontWeight.Normal,
         fontSize = 32.sp,
         lineHeight = 40.sp,
         letterSpacing = 0.sp
     )
     val HeadlineMedium = TextStyle(
         fontFamily = sulSansFamily,
-        fontWeight = FontWeight.Bold,
-        fontSize = 18.sp,
-        lineHeight = 24.sp,
+        fontWeight = FontWeight.Normal,
+        fontSize = 28.sp,
+        lineHeight = 36.sp,
         letterSpacing = 0.sp
     )
     val HeadlineSmall = TextStyle(
         fontFamily = sulSansFamily,
-        fontWeight = FontWeight.Medium,
+        fontWeight = FontWeight.Normal,
         fontSize = 24.sp,
         lineHeight = 32.sp,
         letterSpacing = 0.sp
     )
     val TitleLarge = TextStyle(
         fontFamily = sulSansFamily,
-        fontWeight = FontWeight.Medium,
+        fontWeight = FontWeight.Normal,
         fontSize = 22.sp,
         lineHeight = 28.sp,
         letterSpacing = 0.sp

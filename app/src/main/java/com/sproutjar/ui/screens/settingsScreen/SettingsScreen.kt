@@ -107,7 +107,7 @@ fun SettingsScreenUI(
     val scope = rememberCoroutineScope()
     val sheetState = rememberModalBottomSheetState()
     var searchText by remember { mutableStateOf("") }
-    var showBottomSheet = remember { mutableStateOf<SettingId?>(null) }
+    val showBottomSheet = remember { mutableStateOf<SettingId?>(null) }
 
     val isBiometricAvailable = if (LocalInspectionMode.current) false
     else remember {
@@ -229,7 +229,7 @@ fun SettingsScreenUI(
                                 SettingItemContentBottomSheet(
                                     icon = {
                                         Image(
-                                            painterResource(Currency.flagCurrency(currency)),
+                                            painterResource(currency.image),
                                             contentDescription = stringResource(currency.title),
                                             contentScale = ContentScale.Fit,
                                             modifier = Modifier.fillMaxSize()
@@ -252,17 +252,15 @@ fun SettingsScreenUI(
                                 SettingItemContentBottomSheet(
                                     icon = {
                                         Image(
-                                            painterResource(Languages.flagLanguages(lang)),
+                                            painterResource(lang.image),
                                             contentDescription = stringResource(
-                                                Languages.localeLanguages(
-                                                    lang
-                                                )
+                                                lang.title
                                             ),
                                             contentScale = ContentScale.Fit,
                                             modifier = Modifier.fillMaxSize()
                                         )
                                     },
-                                    label = Languages.localeLanguages(lang),
+                                    label = lang.title,
                                 )
                             },
                             onSelect = {

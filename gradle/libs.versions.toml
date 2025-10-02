@@ -24,6 +24,7 @@ kotlinReflect = "1.8.22"
 appcompat = "1.7.1"
 material = "1.10.0"
 room = "2.8.0"
+revealSwipe = "1.0.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -62,6 +63,7 @@ material-components = { module = "com.google.android.material:material", version
 room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
 room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
 room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
+reveal-swipe = { group = "de.charlex.compose", name = "revealswipe", version.ref = "revealSwipe" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

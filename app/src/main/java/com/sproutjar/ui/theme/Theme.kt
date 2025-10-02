@@ -19,6 +19,7 @@ private val SproutJarColorScheme = darkColorScheme(
     onSurfaceVariant = Color.White.copy(.5f),
     primaryContainer = LightGreen,
     surfaceContainerLow = MediumGreen,
+    surfaceContainerHigh = MediumGreen,
     onBackground = Color.White,
 )
 
@@ -34,6 +35,7 @@ private val DarkColorScheme = darkColorScheme(
     onSurfaceVariant = Color.White.copy(.5f),
     primaryContainer = Color.White,
     surfaceContainerLow = DarkSurface,
+    surfaceContainerHigh = DarkSurface,
     onBackground = Color.White,
 )
 
@@ -49,6 +51,7 @@ private val LightColorScheme = lightColorScheme(
     onSurfaceVariant = Color.Black.copy(.5f),
     primaryContainer = Color.Black,
     surfaceContainerLow = LightSurface,
+    surfaceContainerHigh = LightSurface,
     onBackground = Color.Black,
 )
 

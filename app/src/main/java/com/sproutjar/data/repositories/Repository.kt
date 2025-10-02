@@ -4,7 +4,7 @@ import com.sproutjar.R
 import com.sproutjar.data.api.ApiService
 import com.sproutjar.data.models.DialogInfo
 import com.sproutjar.data.models.MessageDialog
-import com.sproutjar.data.models.SelicTax
+import com.sproutjar.data.models.CdiRate
 import com.sproutjar.utils.DateFormatPattern
 import com.sproutjar.utils.DateService
 import com.sproutjar.utils.ErrorService
@@ -18,13 +18,13 @@ class Repository @Inject constructor(
     private val apiService: ApiService,
 ) : ErrorService {
 
-    suspend fun getCdiHistoric(initialDate: Date): Resource<List<SelicTax>> {
+    suspend fun getCdiHistoric(initialDate: Date): Resource<List<CdiRate>> {
         val formattedStart = DateService.formatDate(initialDate, DateFormatPattern.SELIC_DATE_HISTORIC)
         val formattedEnd = DateService.formatDate(Date(), DateFormatPattern.SELIC_DATE_HISTORIC)
         return request { apiService.getCdiHistoric(formattedStart, formattedEnd) }
     }
 
-    suspend fun getCdiToday(): Resource<SelicTax> {
+    suspend fun getCdiToday(): Resource<CdiRate> {
         return request { apiService.getCdiToday().first() }
     }
 

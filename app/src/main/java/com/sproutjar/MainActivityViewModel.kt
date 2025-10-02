@@ -6,8 +6,8 @@ import com.sproutjar.data.database.PotDao
 import com.sproutjar.data.database.TransactionDao
 import com.sproutjar.data.models.AppSettings
 import com.sproutjar.data.models.Pot
-import com.sproutjar.data.models.PotUI
-import com.sproutjar.data.models.SelicTax
+import com.sproutjar.data.models.PotStatement
+import com.sproutjar.data.models.CdiRate
 import com.sproutjar.data.models.Transaction
 import com.sproutjar.data.repositories.Repository
 import com.sproutjar.utils.AppPreference
@@ -36,14 +36,14 @@ class MainActivityViewModel @Inject constructor(
     val appSettings: StateFlow<AppSettings> = appPreference.appSettings()
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), AppSettings())
 
-    private val _cdiToday = MutableStateFlow<Resource<SelicTax>>(Resource.Loading())
+    private val _cdiToday = MutableStateFlow<Resource<CdiRate>>(Resource.Loading())
     val cdiToday = _cdiToday.asStateFlow()
 
-    private val _cdiHistory = MutableStateFlow<Resource<List<SelicTax>>>(Resource.Loading())
+    private val _cdiHistory = MutableStateFlow<Resource<List<CdiRate>>>(Resource.Loading())
     val cdiHistory = _cdiHistory.asStateFlow()
 
-    private val _pots = MutableStateFlow<List<PotUI>>(emptyList())
-    val pots: StateFlow<List<PotUI>> = _pots.asStateFlow()
+    private val _pots = MutableStateFlow<List<PotStatement>>(emptyList())
+    val pots: StateFlow<List<PotStatement>> = _pots.asStateFlow()
 
     fun saveAppSettings(appSettings: AppSettings) {
         viewModelScope.launch {
@@ -51,38 +51,32 @@ class MainActivityViewModel @Inject constructor(
         }
     }
 
-    suspend fun fetchPots() {
-        val potsList = potDao.getPots()
-        val potUIList = potsList.map { pot ->
-            val transactions = transactionDao.getTransactionsForPot(pot.id)
-            PotUI(pot, transactions)
+    fun fetchPots() {
+        viewModelScope.launch {
+            val potsList = potDao.getPots()
+            val potUIList = potsList.map { pot ->
+                val transactions = transactionDao.getTransactionsForPot(pot.id)
+                PotStatement(pot, transactions)
+            }
+            _pots.value = potUIList
         }
-        _pots.value = potUIList
     }
 
-    suspend fun insertPot(pot: Pot) {
-        potDao.insertPot(pot)
-        fetchPots()
-    }
+    fun insertPot(pot: Pot) = launchDb { potDao.insertPot(pot) }
+    fun deletePot(pot: Pot) = launchDb { potDao.deletePot(pot) }
+    fun updatePot(pot: Pot) = launchDb { potDao.updatePot(pot) }
+    fun addTransaction(transaction: Transaction) =
+        launchDb { transactionDao.insertTransaction(transaction) }
 
-    suspend fun deletePot(pot: Pot) {
-        potDao.deletePot(pot)
-        fetchPots()
-    }
+    fun deleteTransaction(transaction: Transaction) =
+        launchDb { transactionDao.deleteTransaction(transaction) }
 
-    suspend fun updatePot(pot: Pot) {
-        potDao.updatePot(pot)
-        fetchPots()
-    }
 
-    suspend fun addTransaction(transaction: Transaction) {
-        transactionDao.insertTransaction(transaction)
-        fetchPots()
-    }
-
-    suspend fun deleteTransaction(transaction: Transaction) {
-        transactionDao.deleteTransaction(transaction)
-        fetchPots()
+    private fun launchDb(block: suspend () -> Unit) {
+        viewModelScope.launch {
+            block()
+            fetchPots()
+        }
     }
 
     suspend fun fetchCdiToday() {
@@ -108,6 +102,7 @@ class MainActivityViewModel @Inject constructor(
                 else
                     Resource.Error(result.dialogInfo)
             }
+
             else -> Resource.Error()
         }
     }

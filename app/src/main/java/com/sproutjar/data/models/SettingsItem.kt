@@ -63,7 +63,7 @@ sealed class SettingsItem(
     object ResetAccount : SettingsItem(
         SettingId.RESET_ACCOUNT,
         Icons.Default.Delete,
-        R.string.reset_account,
-        R.string.reset_account_desc
+        R.string.reset_account_label,
+        R.string.reset_account_desc_label
     )
 }

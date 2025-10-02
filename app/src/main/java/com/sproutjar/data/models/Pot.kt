@@ -2,12 +2,17 @@ package com.sproutjar.data.models
 
 import androidx.annotation.StringRes
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Backpack
+import androidx.compose.material.icons.outlined.Ballot
 import androidx.compose.material.icons.outlined.BeachAccess
+import androidx.compose.material.icons.outlined.Bed
+import androidx.compose.material.icons.outlined.Cake
 import androidx.compose.material.icons.outlined.Celebration
 import androidx.compose.material.icons.outlined.DirectionsCar
 import androidx.compose.material.icons.outlined.Flight
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.HomeRepairService
+import androidx.compose.material.icons.outlined.Pets
 import androidx.compose.material.icons.outlined.PregnantWoman
 import androidx.compose.material.icons.outlined.School
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -23,13 +28,14 @@ enum class PotCategory(@StringRes val categoryDesc: Int) {
     Education(R.string.education),
     Retirement(R.string.retirement),
     Wedding(R.string.wedding),
-    Pregnancy(R.string.pregnancy);
+    Pregnancy(R.string.pregnancy),
+    Pet(R.string.pet)
 }
 
 @Entity(tableName = "pots")
 data class Pot(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
-    val icon: PotCategory,
+    val potCategory: PotCategory,
     val title: String,
     val cdiPercent: Double = 100.0,
 )
@@ -44,5 +50,6 @@ fun PotCategory.asImageVector(): ImageVector {
         PotCategory.Retirement -> Icons.Outlined.BeachAccess
         PotCategory.Wedding -> Icons.Outlined.Celebration
         PotCategory.Pregnancy -> Icons.Outlined.PregnantWoman
+        PotCategory.Pet -> Icons.Outlined.Pets
     }
 }

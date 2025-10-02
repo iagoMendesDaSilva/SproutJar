@@ -39,8 +39,10 @@
     <string name="biometrics">Biometrics</string>
     <string name="biometrics_desc">Enable biometric authentication</string>
     <string name="account">Account</string>
-    <string name="reset_account">Reset Account</string>
-    <string name="reset_account_desc">Delete all information</string>
+    <string name="reset_account_label">Reset Account</string>
+    <string name="reset_account_desc_label">Delete all information</string>
+    <string name="reset_account">Reset Account?</string>
+    <string name="reset_account_desc">This action cannot be undone. Are you sure you want to reset your account?</string>
     <string name="not_found">No items found</string>
     <string name="usd">USD</string>
     <string name="brl">BRL</string>
@@ -69,4 +71,8 @@
     <string name="category">Category</string>
     <string name="cdi_placeholder_label">100%</string>
     <string name="done">Done</string>
+    <string name="edit">Edit</string>
+    <string name="delete_pot">Delete Pot Jar?</string>
+    <string name="delete_pot_desc">This action cannot be undone. Are you sure you want to delete this pot jar?</string>
+    <string name="pet">Pet</string>
 </resources>

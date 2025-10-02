@@ -1,6 +1,6 @@
 package com.sproutjar.utils
 
-import com.sproutjar.data.models.SelicTax
+import com.sproutjar.data.models.CdiRate
 import com.sproutjar.data.models.Transaction
 import com.sproutjar.data.models.TransactionType
 import java.text.SimpleDateFormat
@@ -37,7 +37,7 @@ object EarningService {
 
     fun calculatePotEarnings(
         transactions: List<Transaction>,
-        cdiHistory: List<SelicTax>,
+        cdiHistory: List<CdiRate>,
         cdiParticipation: Double
     ): Triple<Double, Double, Double> {
 

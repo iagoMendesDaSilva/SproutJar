@@ -1,22 +1,19 @@
 package com.sproutjar.data.models
 
+import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import com.sproutjar.R
-import com.sproutjar.data.models.Languages.ENGLISH
-import com.sproutjar.data.models.Languages.PORTUGUESE
+import java.text.NumberFormat
 
+enum class Currency(@StringRes val title: Int, val code: String, @DrawableRes val  image: Int) {
+    USD(R.string.usd, "USD", R.drawable.usa_flag),
+    BRL(R.string.brl, "BRL", R.drawable.brazil_flag),
+    EUR(R.string.eur, "EUR", R.drawable.europe_flag);
 
-enum class Currency(@StringRes val title: Int) {
-    USD(R.string.usd),
-    BRL(R.string.brl),
-    EUR(R.string.eur);
-
-    companion object{
-        fun flagCurrency(currency: Currency): Int {
-            return when (currency) {
-                Currency.USD -> R.drawable.usa_flag
-                Currency.BRL -> R.drawable.brazil_flag
-                Currency.EUR -> R.drawable.europe_flag
+    companion object {
+        fun getCurrencyFormatter(currency: Currency): NumberFormat {
+            return NumberFormat.getCurrencyInstance().apply {
+                this.currency = java.util.Currency.getInstance(currency.code)
             }
         }
     }

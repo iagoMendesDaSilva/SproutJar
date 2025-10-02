@@ -12,7 +12,7 @@ val LightSurface = Color(0xFFFFFFFF)
 val DarkBackground = Color(0xFF2F3136)
 val DarkSurface = Color(0xFF36393F)
 
-val Red = Color(0xFFEE1B26)
+val Red = Color(0xFFE63946)
 val Green = Color(0xFF2DC653)
 val Blue = Color(0xFF0489FF)
 val Orange = Color(0xFFFFA700)

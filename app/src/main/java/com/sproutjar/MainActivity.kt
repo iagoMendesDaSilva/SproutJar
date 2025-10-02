@@ -98,48 +98,41 @@ fun App(extras: Bundle?) {
 
     SproutJarTheme(theme = appSettings.theme) {
         globalDialog.value?.let {
-            GlobalDialog(it) {
-                if (it.dialogInfo.error == ErrorService.HTTP_401_UNAUTHORIZED)
-                    onLogout()
+            GlobalDialog(it.copy(onDismiss = {
+                if (it.dialogInfo.error == ErrorService.HTTP_401_UNAUTHORIZED) onLogout()
                 globalDialog.value = null
-            }
+            }))
         }
 
         Scaffold(bottomBar = {
-            if (showBottomBar)
-                NavigationBar {
-                    NavigationBarItem.items.forEach { item ->
-                        val selected = item.route.let {
-                            navBackStackEntry?.destination?.route?.startsWith(
-                                it
-                            )
-                        } ?: false
-                        NavigationBarItem(
-                            label = {
-                                Text(
-                                    style = MaterialTheme.typography.bodySmall,
-                                    text = stringResource(id = item.title)
-                                )
-                            },
-                            icon = {
-                                Icon(
-                                    imageVector = if (selected) item.iconSelected else item.iconUnSelected,
-                                    contentDescription = stringResource(id = item.title),
-                                )
-                            },
-                            selected = selected,
-                            onClick = {
-                                navController.navigate(item.route) {
-                                    popUpTo(navController.graph.startDestinationId) {
-                                        saveState = true
-                                    }
-                                    launchSingleTop = true
-                                    restoreState = true
-                                }
-                            }
+            if (showBottomBar) NavigationBar {
+                NavigationBarItem.items.forEach { item ->
+                    val selected = item.route.let {
+                        navBackStackEntry?.destination?.route?.startsWith(
+                            it
                         )
-                    }
+                    } ?: false
+                    NavigationBarItem(label = {
+                        Text(
+                            style = MaterialTheme.typography.bodySmall,
+                            text = stringResource(id = item.title)
+                        )
+                    }, icon = {
+                        Icon(
+                            imageVector = if (selected) item.iconSelected else item.iconUnSelected,
+                            contentDescription = stringResource(id = item.title),
+                        )
+                    }, selected = selected, onClick = {
+                        navController.navigate(item.route) {
+                            popUpTo(navController.graph.startDestinationId) {
+                                saveState = true
+                            }
+                            launchSingleTop = true
+                            restoreState = true
+                        }
+                    })
                 }
+            }
         }) {
             Column {
                 ConnectivityStatus(connection)
@@ -150,8 +143,8 @@ fun App(extras: Bundle?) {
                     appSettings = appSettings,
                     saveAppSettings = { viewModel.saveAppSettings(it) },
                 ) {
-                    if (connection == ConnectionState.Unavailable)
-                        globalDialog.value = GlobalDialogState(
+                    if (connection == ConnectionState.Unavailable) globalDialog.value =
+                        GlobalDialogState(
                             DialogInfo(
                                 MessageDialog(
                                     R.string.no_internet_connection,
@@ -159,8 +152,7 @@ fun App(extras: Bundle?) {
                                 )
                             )
                         )
-                    else
-                        globalDialog.value = it
+                    else globalDialog.value = it
                 }
             }
         }
