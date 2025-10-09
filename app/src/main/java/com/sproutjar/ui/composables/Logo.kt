@@ -1,12 +1,11 @@
 package com.sproutjar.ui.composables
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Scaffold
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -36,13 +35,17 @@ fun Logo(theme: Theme, modifier: Modifier = Modifier) {
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+
 @Preview
 @Composable
 fun LogoPreview() {
     SproutJarTheme {
-        Box(Modifier.fillMaxSize(), Alignment.Center) {
+        Box(
+            Modifier
+                .fillMaxSize()
+                .background(MaterialTheme.colorScheme.background),
+            Alignment.Center
+        ) {
             Logo(
                 theme = Theme.SPROUT_JAR
             )

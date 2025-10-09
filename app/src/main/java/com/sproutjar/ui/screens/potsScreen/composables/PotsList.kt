@@ -1,6 +1,7 @@
 package com.sproutjar.ui.screens.potsScreen.composables
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -28,6 +29,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import com.sproutjar.R
 import com.sproutjar.data.models.Pot
 import com.sproutjar.data.models.PotStatement
@@ -35,6 +37,7 @@ import com.sproutjar.data.models.CdiRate
 import com.sproutjar.data.models.Currency
 import com.sproutjar.data.models.PotCategory
 import com.sproutjar.data.models.asImageVector
+import com.sproutjar.navigation.Screens
 import com.sproutjar.ui.theme.Red
 import com.sproutjar.ui.theme.SproutJarTheme
 import com.sproutjar.utils.EarningService
@@ -46,6 +49,7 @@ import java.text.NumberFormat
 fun PotsList(
     pots: List<PotStatement>,
     searchText: String,
+    navController: NavHostController,
     currency: NumberFormat,
     cdiHistory: List<CdiRate>,
     onUpdate: ((pot: Pot) -> Unit)? = null,
@@ -71,7 +75,10 @@ fun PotsList(
                 potStatement,
                 cdiHistory,
                 onDelete = { pot -> onDelete?.invoke(pot) },
-                onUpdate = { pot -> onUpdate?.invoke(pot) }
+                onUpdate = { pot -> onUpdate?.invoke(pot) },
+                onPress = {
+                    navController.navigate(Screens.PotScreen.name + "?pot=${potStatement.pot}")
+                }
             )
         }
     }
@@ -85,6 +92,7 @@ internal fun PotCard(
     cdiHistory: List<CdiRate>,
     onDelete: (Pot) -> Unit,
     onUpdate: (Pot) -> Unit,
+    onPress: () -> Unit,
 ) {
     val (balance, grossEarnings, netEarnings) =
         EarningService.calculatePotEarnings(
@@ -139,7 +147,10 @@ internal fun PotCard(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .background(MaterialTheme.colorScheme.background, MaterialTheme.shapes.medium),
+                .background(MaterialTheme.colorScheme.background, MaterialTheme.shapes.medium)
+                .clickable {
+                    onPress()
+                },
             verticalAlignment = Alignment.CenterVertically
         ) {
 
@@ -198,7 +209,7 @@ internal fun PotCard(
 @Composable
 fun PotCardPreview() {
     SproutJarTheme {
-        Surface {
+        Surface(color = MaterialTheme.colorScheme.background){
             PotCard(
                 Currency.getCurrencyFormatter(Currency.USD),
                 potStatement = PotStatement(
@@ -211,7 +222,8 @@ fun PotCardPreview() {
                 ),
                 cdiHistory = emptyList(),
                 onUpdate = {},
-                onDelete = { }
+                onDelete = {},
+                onPress = {},
             )
         }
     }

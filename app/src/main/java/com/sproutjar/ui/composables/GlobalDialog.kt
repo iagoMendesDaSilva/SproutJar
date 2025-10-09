@@ -1,14 +1,11 @@
 package com.sproutjar.ui.composables
 
-import android.annotation.SuppressLint
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.sproutjar.R
@@ -28,13 +25,13 @@ fun GlobalDialog(
         },
         title = {
             Text(
-                text = stringResource(id = dialogInfo.messageDialog.titleID),
+                text = stringResource(id = dialogInfo.messageInfo.titleID),
                 style = MaterialTheme.typography.headlineSmall
             )
         },
         text = {
             Text(
-                text = stringResource(id = dialogInfo.messageDialog.messageID),
+                text = stringResource(id = dialogInfo.messageInfo.messageID),
                 style = MaterialTheme.typography.bodyMedium
             )
         },
@@ -67,24 +64,22 @@ fun GlobalDialog(
     )
 }
 
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Preview
 @Composable
 fun GlobalDialogPreviewOneOption() {
     SproutJarTheme() {
-        Surface(modifier = Modifier.fillMaxSize()) {
+        Surface {
             GlobalDialog(GlobalDialogState(dialogInfo = DialogInfo()))
         }
     }
 
 }
 
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Preview
 @Composable
 fun GlobalDialogPreviewTwoOptions() {
     SproutJarTheme {
-        Surface(modifier = Modifier.fillMaxSize()) {
+        Surface {
             GlobalDialog(GlobalDialogState(dialogInfo = DialogInfo(), onSuccess = {}))
         }
     }

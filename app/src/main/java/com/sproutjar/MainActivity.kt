@@ -34,7 +34,7 @@ import androidx.navigation.compose.rememberNavController
 import com.sproutjar.data.models.AppSettings
 import com.sproutjar.data.models.DialogInfo
 import com.sproutjar.data.models.GlobalDialogState
-import com.sproutjar.data.models.MessageDialog
+import com.sproutjar.data.models.MessageInfo
 import com.sproutjar.navigation.Navigation
 import com.sproutjar.navigation.NavigationBarItem
 import com.sproutjar.navigation.Screens
@@ -146,7 +146,7 @@ fun App(extras: Bundle?) {
                     if (connection == ConnectionState.Unavailable) globalDialog.value =
                         GlobalDialogState(
                             DialogInfo(
-                                MessageDialog(
+                                MessageInfo(
                                     R.string.no_internet_connection,
                                     R.string.check_internet_connection
                                 )

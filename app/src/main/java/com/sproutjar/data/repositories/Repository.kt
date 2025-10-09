@@ -3,7 +3,7 @@ package com.sproutjar.data.repositories
 import com.sproutjar.R
 import com.sproutjar.data.api.ApiService
 import com.sproutjar.data.models.DialogInfo
-import com.sproutjar.data.models.MessageDialog
+import com.sproutjar.data.models.MessageInfo
 import com.sproutjar.data.models.CdiRate
 import com.sproutjar.utils.DateFormatPattern
 import com.sproutjar.utils.DateService
@@ -29,7 +29,7 @@ class Repository @Inject constructor(
     }
 
     private suspend fun <T> request(
-        defaultMessage: MessageDialog = MessageDialog(
+        defaultMessage: MessageInfo = MessageInfo(
             R.string.error_internal_server,
             R.string.checking_server
         ),
@@ -45,7 +45,7 @@ class Repository @Inject constructor(
         } catch (e: Exception) {
             Resource.Error(
                 DialogInfo(
-                    MessageDialog(
+                    MessageInfo(
                         titleID = R.string.error_internal_server,
                         messageID = R.string.checking_server
                     ),

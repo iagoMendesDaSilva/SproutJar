@@ -19,6 +19,7 @@ import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
@@ -154,6 +155,8 @@ internal fun SearchHeader(
 @Composable
 fun SearchHeaderPreview() {
     SproutJarTheme {
+        Surface(color = MaterialTheme.colorScheme.background){
             SearchHeader(R.string.settings) {}
         }
+    }
 }

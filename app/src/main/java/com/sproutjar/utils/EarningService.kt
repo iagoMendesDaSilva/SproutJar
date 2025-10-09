@@ -101,10 +101,80 @@ object EarningService {
         return Triple(round2(balance), round2(grossRounded), round2(netEarnings))
     }
 
-    private fun isSameDay(a: Date, b: Date): Boolean {
-        val ca = Calendar.getInstance().apply { time = a }
-        val cb = Calendar.getInstance().apply { time = b }
-        return ca.get(Calendar.YEAR) == cb.get(Calendar.YEAR) &&
-                ca.get(Calendar.DAY_OF_YEAR) == cb.get(Calendar.DAY_OF_YEAR)
+    fun calculateEarlyWithdrawalImpact(
+        transactions: List<Transaction>,
+        cdiHistory: List<CdiRate>,
+        cdiParticipation: Double,
+        withdrawValue: Double
+    ): Triple<Double, Double, Double> {
+        if (transactions.isEmpty() || cdiHistory.isEmpty() || withdrawValue <= 0.0) {
+            return Triple(0.0, 0.0, 0.0)
+        }
+
+        val sdf = SimpleDateFormat(DateFormatPattern.SELIC_DATE_HISTORIC.pattern, Locale.getDefault())
+        val cdiMap = cdiHistory.mapNotNull { tax ->
+            try {
+                val d = sdf.parse(tax.date)
+                val v = tax.value.replace(',', '.').toDouble()
+                d to v / 100.0
+            } catch (e: Exception) {
+                null
+            }
+        }.toMap()
+        val cdiDates = cdiMap.keys.sorted()
+        if (cdiDates.isEmpty()) return Triple(0.0, 0.0, 0.0)
+
+        val oldestTxDate = transactions.minByOrNull { it.date }?.date ?: Date()
+        val lastCdiDate = cdiDates.last()
+        val businessDays = 252.0
+        val cdiInternalMultiplier = 0.6517
+
+        // Sort deposits FIFO
+        val deposits = transactions.filter { it.type == TransactionType.DEPOSIT }
+            .sortedBy { it.date }
+            .toMutableList()
+
+        var remainingWithdrawal = withdrawValue
+        var currentIRTax = 0.0
+        var nextIRTax = 0.0
+
+        fun calculateDepositEarnings(tx: Transaction, until: Date): Double {
+            val applicableDates = cdiDates.filter { it.after(tx.date) && !it.after(until) }
+            var earnings = 0.0
+            for (d in applicableDates) {
+                val annualRate = cdiMap[d] ?: continue
+                val dailyRate = (annualRate * (cdiParticipation * cdiInternalMultiplier)) / businessDays
+                earnings += tx.amount * dailyRate
+            }
+            return round(earnings * 100) / 100.0
+        }
+
+        while (remainingWithdrawal > 0 && deposits.isNotEmpty()) {
+            val tx = deposits.removeAt(0)
+            val withdrawalPortion = if (tx.amount >= remainingWithdrawal) remainingWithdrawal else tx.amount
+
+            val depositDays = daysBetween(tx.date, lastCdiDate)
+            val iofRate = if (depositDays in 1..30) 1.0 - getIofRate(depositDays) else 0.0
+            val irRateNow = getIrRate(depositDays)
+            val irRateNextMonth = getIrRate(depositDays + 30)
+
+            val grossEarnings = calculateDepositEarnings(tx, lastCdiDate) * (withdrawalPortion / tx.amount)
+            val iofAmount = grossEarnings * iofRate
+            val irAmountNow = grossEarnings * irRateNow
+            val irAmountNext = grossEarnings * irRateNextMonth
+
+            currentIRTax += irAmountNow + iofAmount
+            nextIRTax += irAmountNext + iofAmount // IOF won't change next month
+
+            remainingWithdrawal -= withdrawalPortion
+        }
+
+        val netSaved = nextIRTax - currentIRTax
+
+        return Triple(
+            round(currentIRTax * 100) / 100.0,
+            round(nextIRTax * 100) / 100.0,
+            round(netSaved * 100) / 100.0
+        )
     }
 }

@@ -4,7 +4,7 @@ import android.annotation.SuppressLint
 import android.content.ComponentName
 import android.content.Context
 import android.content.pm.PackageManager
-import androidx.annotation.StringRes
+import android.util.Log
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.biometric.BiometricManager
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -21,12 +21,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -64,7 +58,7 @@ import com.sproutjar.data.models.Currency
 import com.sproutjar.data.models.DialogInfo
 import com.sproutjar.data.models.GlobalDialogState
 import com.sproutjar.data.models.Languages
-import com.sproutjar.data.models.MessageDialog
+import com.sproutjar.data.models.MessageInfo
 import com.sproutjar.data.models.SettingId
 import com.sproutjar.data.models.SettingsItem
 import com.sproutjar.data.models.SettingsSection
@@ -75,6 +69,9 @@ import com.sproutjar.data.models.icon
 import com.sproutjar.navigation.Screens
 import com.sproutjar.ui.composables.LogoLabel
 import com.sproutjar.ui.composables.SearchHeader
+import com.sproutjar.ui.screens.settingsScreen.composables.SettingContentBottomSheet
+import com.sproutjar.ui.screens.settingsScreen.composables.SettingItemContentBottomSheet
+import com.sproutjar.ui.screens.settingsScreen.composables.SettingsList
 import com.sproutjar.ui.theme.Green
 import com.sproutjar.ui.theme.SproutJarTheme
 import com.sproutjar.utils.AppIcons
@@ -130,7 +127,7 @@ fun SettingsScreenUI(
             showGlobalDialog(
                 GlobalDialogState(
                     dialogInfo = DialogInfo(
-                        MessageDialog(
+                        MessageInfo(
                             R.string.reset_account,
                             R.string.reset_account_desc
                         )
@@ -156,25 +153,11 @@ fun SettingsScreenUI(
                 if (filteredSections.isEmpty())
                     LogoLabel(
                         appSettings.theme,
-                        MessageDialog(R.string.not_found_settings, R.string.settings_unavailable)
+                        MessageInfo(R.string.not_found_settings, R.string.settings_unavailable)
                     )
                 else {
-                    LazyColumn(Modifier.fillMaxSize()) {
-                        filteredSections.forEach { section ->
-                            stickyHeader { Text(stringResource(section.title)) }
-                            items(section.items) { item ->
-                                SettingCard(
-                                    settingItem = item,
-                                    switchValue = when (item.id) {
-                                        SettingId.NOTIFICATIONS -> appSettings.notifications
-                                        SettingId.BIOMETRICS -> appSettings.biometrics
-                                        else -> null
-                                    },
-                                    enabled = item.id != SettingId.BIOMETRICS || isBiometricAvailable,
-                                    onPress = settingActions[item.id] ?: {}
-                                )
-                            }
-                        }
+                    SettingsList(filteredSections, appSettings, isBiometricAvailable){
+                        settingActions[it.id]?.invoke()
                     }
                 }
             }
@@ -302,104 +285,6 @@ fun SettingsScreenUI(
                     }
                 }
             }
-        }
-    }
-}
-
-
-@Composable
-fun SettingItemContentBottomSheet(
-    icon: @Composable () -> Unit,
-    @StringRes label: Int,
-    backgroundColor: Color = MaterialTheme.colorScheme.surface
-) {
-    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-        Box(
-            modifier = Modifier
-                .size(72.dp)
-                .background(backgroundColor, CircleShape)
-                .padding(16.dp),
-            contentAlignment = Alignment.Center
-        ) { icon() }
-        Text(
-            stringResource(label),
-            style = MaterialTheme.typography.labelMedium,
-            modifier = Modifier.padding(vertical = 10.dp)
-        )
-    }
-}
-
-@Composable
-fun <T> SettingContentBottomSheet(
-    @StringRes title: Int,
-    @StringRes description: Int,
-    items: List<T>,
-    itemContent: @Composable (T) -> Unit,
-    onSelect: (T) -> Unit
-) {
-    Text(stringResource(title), style = MaterialTheme.typography.headlineSmall)
-    Text(
-        stringResource(description),
-        style = MaterialTheme.typography.titleSmall,
-        modifier = Modifier.padding(bottom = 30.dp, top = 10.dp),
-    )
-    LazyRow(horizontalArrangement = Arrangement.Center, modifier = Modifier.fillMaxWidth()) {
-        itemsIndexed(items) { index, item ->
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier
-                    .padding(horizontal = 15.dp)
-                    .clickable { onSelect(item) })
-            { itemContent(item) }
-        }
-    }
-}
-
-@Composable
-fun SettingCard(
-    settingItem: SettingsItem,
-    switchValue: Boolean? = null,
-    enabled: Boolean = true,
-    onPress: () -> Unit
-) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clickable(enabled = enabled) { onPress() }
-            .padding(10.dp),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween
-    ) {
-        Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.weight(1f)) {
-            Box(
-                Modifier
-                    .padding(end = 8.dp)
-                    .background(MaterialTheme.colorScheme.surface, MaterialTheme.shapes.small)
-                    .padding(8.dp),
-                contentAlignment = Alignment.Center
-            ) { Icon(settingItem.icon, contentDescription = stringResource(settingItem.title)) }
-            Column {
-                Text(stringResource(settingItem.title), style = MaterialTheme.typography.bodySmall)
-                Text(
-                    stringResource(settingItem.description),
-                    style = MaterialTheme.typography.labelSmall,
-                    modifier = Modifier
-                        .alpha(0.5f)
-                        .padding(top = 3.dp)
-                )
-            }
-        }
-        switchValue?.let {
-            Switch(
-                enabled = enabled,
-                checked = it,
-                colors = SwitchDefaults.colors(
-                    checkedTrackColor = Green,
-                    uncheckedThumbColor = Color.White,
-                    uncheckedTrackColor = MaterialTheme.colorScheme.onSurface.copy(0.1f),
-                    uncheckedBorderColor = Color.Transparent
-                ),
-                onCheckedChange = { onPress() }
-            )
         }
     }
 }

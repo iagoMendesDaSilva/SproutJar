@@ -234,7 +234,7 @@ fun PotCategoryList(
 fun PotBottomSheetContentPreview() {
     SproutJarTheme {
         Surface {
-            PotBottomSheetContent() {}
+            PotBottomSheetContent {}
         }
     }
 }

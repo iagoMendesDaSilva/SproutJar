@@ -26,5 +26,6 @@ data class Transaction(
     val potId: Int,
     val amount: Double,
     val date: Date,
+    val description: String,
     val type: TransactionType
 )

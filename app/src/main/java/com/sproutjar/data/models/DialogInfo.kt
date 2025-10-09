@@ -5,7 +5,7 @@ import com.sproutjar.utils.ErrorService
 
 
 data class DialogInfo (
-    val messageDialog: MessageDialog =  MessageDialog(
+    val messageInfo: MessageInfo =  MessageInfo(
         titleID =  R.string.error_internal_server,
         messageID =  R.string.checking_server
     ),

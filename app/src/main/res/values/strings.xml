@@ -75,4 +75,17 @@
     <string name="delete_pot">Delete Pot Jar?</string>
     <string name="delete_pot_desc">This action cannot be undone. Are you sure you want to delete this pot jar?</string>
     <string name="pet">Pet</string>
+    <string name="deposit">Deposit</string>
+    <string name="withdraw">Withdraw</string>
+    <string name="income_history">Income History</string>
+    <string name="manage_deposit">Manage Deposit</string>
+    <string name="manage_deposit_desc">Schedule deposit</string>
+    <string name="transactions">Transactions</string>
+    <string name="plus">"+ "</string>
+    <string name="minus">"- "</string>
+    <string name="not_found_transactions">Not found transaction</string>
+    <string name="add_first_transaction">Add your first transaction</string>
+    <string name="transactions_description_placeholder">Transaction Title</string>
+    <string name="amount_placeholder">Amount</string>
+    <string name="amount_placeholder_label">100</string>
 </resources>

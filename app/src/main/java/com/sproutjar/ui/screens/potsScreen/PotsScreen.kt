@@ -31,6 +31,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.sproutjar.MainActivityViewModel
 import com.sproutjar.R
 import com.sproutjar.data.models.AppSettings
@@ -38,7 +39,7 @@ import com.sproutjar.data.models.CdiRate
 import com.sproutjar.data.models.Currency
 import com.sproutjar.data.models.DialogInfo
 import com.sproutjar.data.models.GlobalDialogState
-import com.sproutjar.data.models.MessageDialog
+import com.sproutjar.data.models.MessageInfo
 import com.sproutjar.data.models.Pot
 import com.sproutjar.data.models.PotStatement
 import com.sproutjar.data.models.Theme
@@ -72,6 +73,7 @@ fun PotsScreen(
     PotsScreenUI(
         appSettings.theme,
         appSettings.currency,
+        navController,
         pots, cdiHistory,
         insertPot = { viewModel.insertPot(it) },
         updatePot = { viewModel.updatePot(it) },
@@ -79,7 +81,7 @@ fun PotsScreen(
             showGlobalDialog(
                 GlobalDialogState(
                     dialogInfo = DialogInfo(
-                        MessageDialog(
+                        MessageInfo(
                             R.string.delete_pot,
                             R.string.delete_pot_desc
                         )
@@ -96,6 +98,7 @@ fun PotsScreen(
 fun PotsScreenUI(
     theme: Theme,
     currency: Currency,
+    navController: NavHostController,
     pots: List<PotStatement>,
     cdiHistory: Resource<List<CdiRate>>,
     insertPot: (pot: Pot) -> Unit,
@@ -139,19 +142,20 @@ fun PotsScreenUI(
                     is Resource.Error ->
                         LogoLabel(
                             theme,
-                            MessageDialog(R.string.checking_server, R.string.try_again)
+                            MessageInfo(R.string.checking_server, R.string.try_again)
                         )
 
                     is Resource.Success ->
                         if (pots.none { it.pot.title.contains(searchText, ignoreCase = true) })
                             LogoLabel(
                                 theme,
-                                MessageDialog(R.string.not_found_pots, R.string.add_first_pot)
+                                MessageInfo(R.string.not_found_pots, R.string.add_first_pot)
                             )
                         else
                             PotsList(
                                 pots,
                                 searchText,
+                                navController,
                                 currencyFormatter,
                                 cdiHistory.data!!,
                                 onDelete = { deletePot(it) },
@@ -200,6 +204,7 @@ fun PotsPreview() {
             PotsScreenUI(
                 Theme.SPROUT_JAR,
                 Currency.USD,
+                rememberNavController(),
                 emptyList(),
                 Resource.Error(),
                 insertPot = {},

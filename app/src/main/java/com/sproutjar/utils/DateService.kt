@@ -7,6 +7,8 @@ import java.util.Locale
 
 enum class DateFormatPattern(val pattern: String) {
     SELIC_DATE_HISTORIC("dd/MM/yyyy"),
+    HOUR_MINUTE("HH:mm"),
+    DAY_MONTH("dd MMM")
 }
 
 

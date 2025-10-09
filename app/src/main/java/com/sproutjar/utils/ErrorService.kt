@@ -1,7 +1,7 @@
 package com.sproutjar.utils
 
 import com.sproutjar.R
-import com.sproutjar.data.models.MessageDialog
+import com.sproutjar.data.models.MessageInfo
 
 interface ErrorService {
 
@@ -14,21 +14,21 @@ interface ErrorService {
 
     fun getErrorMessage(
         statusCode: Int,
-        messageDefault: MessageDialog = MessageDialog(
+        messageDefault: MessageInfo = MessageInfo(
             R.string.error_internal_server,
             R.string.checking_server
         )
-    ): MessageDialog {
+    ): MessageInfo {
 
         return when (statusCode) {
-            HTTP_401_UNAUTHORIZED -> MessageDialog(
+            HTTP_401_UNAUTHORIZED -> MessageInfo(
                 R.string.error_unauthorized,
                 R.string.error_unauthorized
             )
 
-            HTTP_403_FORBIDDEN -> MessageDialog(R.string.error_forbidden, R.string.error_forbidden)
+            HTTP_403_FORBIDDEN -> MessageInfo(R.string.error_forbidden, R.string.error_forbidden)
             HTTP_404_NOT_FOUND -> messageDefault
-            else -> MessageDialog(R.string.error_internal_server, R.string.checking_server)
+            else -> MessageInfo(R.string.error_internal_server, R.string.checking_server)
         }
     }
 }

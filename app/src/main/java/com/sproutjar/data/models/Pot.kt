@@ -1,12 +1,9 @@
 package com.sproutjar.data.models
 
+import android.net.Uri
 import androidx.annotation.StringRes
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Backpack
-import androidx.compose.material.icons.outlined.Ballot
 import androidx.compose.material.icons.outlined.BeachAccess
-import androidx.compose.material.icons.outlined.Bed
-import androidx.compose.material.icons.outlined.Cake
 import androidx.compose.material.icons.outlined.Celebration
 import androidx.compose.material.icons.outlined.DirectionsCar
 import androidx.compose.material.icons.outlined.Flight
@@ -18,7 +15,9 @@ import androidx.compose.material.icons.outlined.School
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.google.gson.Gson
 import com.sproutjar.R
+import com.sproutjar.utils.JsonNavType
 
 enum class PotCategory(@StringRes val categoryDesc: Int) {
     Emergency(R.string.emergency),
@@ -37,8 +36,25 @@ data class Pot(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
     val potCategory: PotCategory,
     val title: String,
-    val cdiPercent: Double = 100.0,
-)
+    val cdiPercent: Double = 1.0,
+) {
+    override fun toString(): String = Uri.encode(Gson().toJson(this))
+
+}
+
+class PotArgType : JsonNavType<Pot>() {
+
+    companion object {
+        val potArgType = PotArgType()
+    }
+
+    override fun fromJsonParse(value: String): Pot =
+        Gson().fromJson(value, Pot::class.java)
+
+    override fun Pot.getJsonParse(): String = Gson().toJson(this)
+
+}
+
 
 fun PotCategory.asImageVector(): ImageVector {
     return when (this) {

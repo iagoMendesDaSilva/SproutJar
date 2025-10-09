@@ -9,12 +9,14 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.navigation.NavHostController
-import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.google.gson.Gson
 import com.sproutjar.data.models.AppSettings
 import com.sproutjar.data.models.GlobalDialogState
+import com.sproutjar.data.models.Pot
+import com.sproutjar.data.models.PotArgType
 import com.sproutjar.ui.screens.potScreen.PotScreen
 import com.sproutjar.ui.screens.potsScreen.PotsScreen
 import com.sproutjar.ui.screens.projectionsScreen.ProjectionsScreen
@@ -105,12 +107,13 @@ fun Navigation(
         }
 
         composable(
-            Screens.PotScreen.name + "?id={id}",
-            arguments = listOf(navArgument("id") {
-                type = NavType.IntType
-                defaultValue = 0
+            Screens.PotScreen.name + "?pot={pot}",
+            arguments = listOf(navArgument("pot") {
+                type = PotArgType.potArgType
             })
-        ) {
+        ) { navBackStackEntry ->
+            val pot = navBackStackEntry.arguments?.getString("pot")
+                ?.let { Gson().fromJson(it, Pot::class.java) }
             ConnectionReloadHandler(
                 connection,
                 navController,
@@ -120,7 +123,7 @@ fun Navigation(
                 connection,
                 navController,
                 appSettings,
-                it.arguments?.getInt("id") ?: 0,
+                pot,
                 saveAppSettings,
                 showGlobalDialog
             )
